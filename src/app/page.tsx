@@ -1,12 +1,11 @@
 'use client'
 import { useState } from 'react'
-import { supabase } from '../lib/supabase' // パスが不安ならこれで
+import { supabase } from '../lib/supabase'
 
 export default function Home() {
   const [name, setName] = useState('')
 
   const createCat = async () => {
-    // ボタンが押されたか確認
     console.log('登録ボタン押したよ:', name)
 
     const { data, error } = await supabase
