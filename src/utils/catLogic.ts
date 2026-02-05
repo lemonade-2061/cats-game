@@ -1,4 +1,4 @@
-import { Cat, GameRecord } from "@/types/DB";
+import { Cat, GameRecord } from "@/types/models";
 
 export const createCat = (name: string, coatColor: string): Cat => {
     return {
@@ -7,7 +7,6 @@ export const createCat = (name: string, coatColor: string): Cat => {
         age: 0,
         created_at: new Date().toISOString(),
         birthday: new Date().toISOString(),
-        coat_color: coatColor,
     };
 };
 

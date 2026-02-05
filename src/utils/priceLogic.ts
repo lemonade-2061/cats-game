@@ -1,4 +1,4 @@
-import { GameRecord, Item } from "@/types/DB";
+import { GameRecord, Item } from "@/types/models";
 import { HAIRBALL_INCREMENT } from "./constants";
 
 type Result = { success: true; data: GameRecord } | { success: false; message: string };
