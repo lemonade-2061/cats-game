@@ -42,6 +42,17 @@ body {
   padding: 24px;
 }
 
+.care-background {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
 .login-form {
   background: rgba(239, 220, 197, 1);
   padding: 60px 50px;
@@ -56,6 +67,129 @@ body {
   color: #4A2C2A;
 }
 
+@font-face {
+  font-family: "pottaone";
+  src: url("/fonts/pottaone.ttf") format("truetype");
+}
+
 .login-form h1 {
   font-weight: nomal;
+}
+
+/* Care page UI styles */
+.care-ui {
+  position: relative;
+  /* Make the UI match the visible background area so children stay inside */
+  width: min(1100px, 90vw);
+  max-width: 1100px;
+  aspect-ratio: 16/9;
+  height: auto;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-image: url('/cat/carebg.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.care-ui .top-left {
+  position: absolute;
+  top: 2.5%;
+  left: 12%;
+  font-size: 28px;
+  font-weight: 700;
+  color: #4A2C2A;
+  background: rgba(255,255,255,0.6);
+  padding: 10px 18px;
+  border-radius: 24px;
+  max-width: calc(100% - 220px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.care-ui .top-right {
+  position: absolute;
+  top: 2.5%;
+  right: 12%;
+  display: flex;
+  gap: 12px;
+  color: #4A2C2A;
+}
+
+.care-ui .stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.8);
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+
+.care-ui .stat img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.care-ui .stat span {
+  display: inline-block;
+  min-width: 20px;
+  max-width: 6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  color: #4A2C2A;
+}
+
+.left-tools {
+  position: absolute;
+  left: 12%;
+  top: 18%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.right-tools {
+  position: absolute;
+  right: 12%;
+  top: 18%;
+}
+
+.icon-button {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  border: none;
+  background: rgba(255, 165, 90, 0.95);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.icon-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.center-cat {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -45%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-cat img {
+  max-width: 520px;
+  width: min(60vw, 520px);
+  max-height: 70vh;
+  height: auto;
+  object-fit: contain;
 }
