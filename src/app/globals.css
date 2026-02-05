@@ -30,10 +30,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.login-background {
+.ninshou-background {
   min-height: 100vh;
-  background-image: url('/cat/loginbg.png');
-  background-size: cover;
+  background-image: url('/cat/ninshoubg.png');
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
@@ -54,11 +54,6 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
   font-family: "pottaone";
   color: #4A2C2A;
-}
-
-@font-face {
-  font-family: "pottaone";
-  src: url("/fonts/pottaone.ttf") format("truetype");
 }
 
 .login-form h1 {
