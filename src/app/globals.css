@@ -96,3 +96,32 @@ body {
   cursor: pointer;
   background-color: #FF8C42;
 }
+
+.shop-background {
+  min-height: 100vh;
+  background-image: url('/cat/shopbg.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.shop-box {
+  background: rgba(239, 220, 197, 1);
+  padding: 60px 50px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  width: 100%;
+  max-width: 900px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  font-family: "pottaone";
+  color: #4A2C2A;
+}
