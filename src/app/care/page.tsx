@@ -14,6 +14,7 @@ export default function CarePage() {
             const { data: { user } } = await supabase.auth.getUser();
 
             if (user) {
+                // try to read existing profile
                 const { data, error } = await supabase
                     .from("profile")
                     .select("money, hairball, cat_name")
@@ -22,7 +23,28 @@ export default function CarePage() {
 
                 if (error) {
                     console.error("エラーが発生しました:", error.message);
-                } else if (data) {
+                } else if (!data) {
+                    // no row for this user yet — create one and use its values
+                    const { data: inserted, error: insertError } = await supabase
+                        .from("profile")
+                        .upsert({
+                        id: user.id,
+                        money: 0,
+                        hairball: 0,
+                        cat_name: "猫の名前"
+                        })
+                        .select("money, hairball, cat_name")
+                        .single();
+
+                    if (insertError) {
+                        console.error("profile の作成に失敗しました:", insertError.message);
+                    } else if (inserted) {
+                        console.log("profile 作成と受け取り成功");
+                        setCoin(inserted.money ?? 0);
+                        setHairball(inserted.hairball ?? 0);
+                        if (inserted.cat_name) setCatName(inserted.cat_name);
+                    }
+                } else {
                     console.log("受け取り成功");
                     setCoin(data.money ?? 0);
                     setHairball(data.hairball ?? 0);
@@ -50,7 +72,7 @@ export default function CarePage() {
             // Read latest value from DB to avoid relying only on local state
             const { data: currentRow, error: selectError } = await supabase
                 .from("profile")
-                .select("hairball")
+                .select("id, hairball")
                 .eq("id", user.id)
                 .single();
 
