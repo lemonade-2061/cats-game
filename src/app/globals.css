@@ -64,3 +64,40 @@ body {
 .login-form h1 {
   font-weight: nomal;
 }
+
+.setting-background {
+  min-height: 100vh;
+  background-image: url('/cat/settingbg.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.setting-form {
+  background: rgba(239, 220, 197, 1);
+  padding: 60px 50px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  font-family: "pottaone";
+  color: #4A2C2A;
+}
+
+.setting-back-button {
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid #0a0a0a;
+  border-radius: 5px;
+  width: auto;
+  align-self: center;
+  cursor: pointer;
+  background-color: #FF8C42;
+}
