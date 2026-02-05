@@ -7,7 +7,6 @@ export const createCat = (name: string, coatColor: string): Cat => {
         age: 0,
         created_at: new Date().toISOString(),
         birthday: new Date().toISOString(),
-        coat_color: coatColor,
     };
 };
 
