@@ -1,7 +1,6 @@
 export interface Cat {
     id: string;
     name: string; 
-    coatColor: string;
     age: number;
     created_at: string;
     birthday: string;
