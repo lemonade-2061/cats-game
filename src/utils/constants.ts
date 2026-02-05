@@ -1,0 +1,1 @@
+export const HAIRBALL_INCREMENT = 10;
