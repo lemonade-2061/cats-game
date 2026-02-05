@@ -19,8 +19,48 @@
   }
 }
 
+@font-face {
+  font-family: "pottaone";
+  src: url("/fonts/pottaone.ttf") format("truetype");
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-background {
+  min-height: 100vh;
+  background-image: url('/cat/loginbg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-form {
+  background: rgba(239, 220, 197, 1);
+  padding: 60px 50px;
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  font-family: "pottaone";
+  color: #4A2C2A;
+}
+
+@font-face {
+  font-family: "pottaone";
+  src: url("/fonts/pottaone.ttf") format("truetype");
+}
+
+.login-form h1 {
+  font-weight: nomal;
 }
