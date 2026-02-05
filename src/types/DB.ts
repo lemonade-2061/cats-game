@@ -22,6 +22,13 @@ export interface GameRecord {
     money: number;
     hairball_count: number;
     total_hairball: number;
-    days_played: number;
+    days_played: number
+    items: Item[];
+}
+
+export interface Item {
+    id: string;
+    name: string;
+    price: number;
 }
 
