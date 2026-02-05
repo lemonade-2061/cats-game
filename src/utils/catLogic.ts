@@ -1,4 +1,4 @@
-import { Cat, GameRecord } from "@/types/DB";
+import { Cat, GameRecord } from "@/types/models";
 
 export const createCat = (name: string, coatColor: string): Cat => {
     return {

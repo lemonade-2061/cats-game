@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { buyItem } from "@/utils/priceLogic";
-import type { GameRecord, Item } from "@/types/DB";
+import type { GameRecord, Item } from "@/types/models";
 
 const SHOP_ITEMS = [
     { id: "1", name: "コイン", image: "coin.png", price: 10, icon: "hairball.png" },
