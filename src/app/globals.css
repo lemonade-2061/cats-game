@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -73,7 +75,7 @@ body {
 }
 
 .login-form h1 {
-  font-weight: nomal;
+  font-weight: normal;
 }
 
 /* Care page UI styles */
@@ -193,6 +195,7 @@ body {
   height: auto;
   object-fit: contain;
 }
+
 .setting-background {
   min-height: 100vh;
   background-image: url('/cat/settingbg.png');
