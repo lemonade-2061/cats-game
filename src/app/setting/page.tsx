@@ -3,16 +3,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSound } from "../../components/useSound";
-import { supabase } from "@/lib/supabase"
+import { supabase } from "@/lib/supabase";
 
 export default function SettingPage() {
     const router = useRouter();
-
     
     const [nakigoe, setNakigoe] = useState(5);
     const [koukakuon, setKoukakuon] = useState(5);
     const [bgm, setBgm] = useState(5);
 
+    const [newCatName, setNewCatName] = useState("");
+    const [newCatKind, setNewCatKind] = useState("猫１");
 
     const { play: playClick } = useSound("/sound/click.mp3", koukakuon);
     const { play: playCat1 } = useSound("/sound/cat1.mp3", nakigoe);
@@ -30,14 +31,13 @@ export default function SettingPage() {
         }, 0);
     }, []);
 
-
     const playRandomCatSound = (v?: number) => {
         const sounds = [playCat1, playCat2, playCat3];
         const randomIndex = Math.floor(Math.random() * sounds.length);
         sounds[randomIndex](v);
     }
 
-const handleReturn = async () => {
+    const handleReturn = async () => {
         playClick();
         const { data: { user } } = await supabase.auth.getUser();
 
@@ -72,7 +72,7 @@ const handleReturn = async () => {
                 >
                     <option>猫１</option>
                     <option>猫２</option>
-                    <option>猫３</option>
+                    <option>猫３</option>    
                 </select>
                 
                 <div style={{width: "100%"}}>
@@ -119,14 +119,10 @@ const handleReturn = async () => {
                 <button 
                     type="button" 
                     className="setting-back-button" 
-                    onClick={() => {
-                        playClick(); 
-                        router.push("/care");
-                    }}
+                    onClick={handleReturn}
                 >
                     戻る
                 </button>
-
             </form>
         </main>
     );
