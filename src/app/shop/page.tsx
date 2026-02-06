@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { buyItem } from "@/utils/priceLogic";
 import type { GameRecord, Item } from "@/types/models";
+import "@/app/globals.css"
 import { useSound } from "../../components/useSound";
 
 const SHOP_ITEMS = [
