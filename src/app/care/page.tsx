@@ -25,9 +25,10 @@ export default function CarePage() {
     useEffect(() => {
         const savedNaki = localStorage.getItem("vol_naki");
         const savedKouka = localStorage.getItem("vol_kouka");
+        setTimeout(() => {
         if (savedNaki) setNakigoe(Number(savedNaki));
         if (savedKouka) setKouka(Number(savedKouka));
-        
+        }, 0);
     }, []);
 
     const playRandomCatSound = (v?: number) => {
