@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { buyItem } from "@/utils/priceLogic";
 import type { GameRecord, Item } from "@/types/models";
+import "@/app/globals.css"
 
 const SHOP_ITEMS = [
     { id: "1", name: "コイン", image: "coin.png", price: 10, icon: "hairball.png" },

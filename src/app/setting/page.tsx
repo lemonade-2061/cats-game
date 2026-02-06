@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSound } from "../../components/useSound";
 import { supabase } from "@/lib/supabase"
+import "@/app/globals.css"
 
 export default function SettingPage() {
     const router = useRouter();
@@ -18,6 +19,7 @@ export default function SettingPage() {
     const [nakigoe, setNakigoe] = useState<number>(() => getInitial("vol_naki", 5));
     const [koukakuon, setKoukakuon] = useState<number>(() => getInitial("vol_kouka", 5));
     const [bgm, setBgm] = useState<number>(() => getInitial("vol_bgm", 5));
+
     const { play: playClick } = useSound("/sound/click.mp3", koukakuon);
     const { play: playCat1 } = useSound("/sound/cat1.mp3", nakigoe);
     const { play: playCat2 } = useSound("/sound/cat2.mp3", nakigoe);
