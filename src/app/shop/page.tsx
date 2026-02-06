@@ -53,7 +53,7 @@ export default function ShopPage() {
         try {
             const { data: currentRecord } = await supabase
                 .from("profile")
-                .select("money, hairball_count, items")
+                .select("money, hairball_count")
                 .eq("id", userId)
                 .single();
 
@@ -71,30 +71,17 @@ export default function ShopPage() {
                 hairball_count: currentRecord.hairball_count ?? 0,
                 total_hairball: 0,
                 days_played: 0,
-                items: currentRecord.items ?? [],
+                items: [],
             };
 
-            const result = buyItem(gameRecord, item);
+            const result = await buyItem(gameRecord, item, supabase, userId);
             if (!result.success) {
                 alert(result.message);
-                setLoading(false);
-                return;
-            }
-
-            const { error } = await supabase
-                .from("profile")
-                .update({
-                    money: result.data.money,
-                    items: result.data.items,
-                })
-                .eq("id", userId);
-
-            if (error) {
-                alert("購入失敗");
                 return;
             }
 
             setCoin(result.data.money);
+            setHairball(result.data.hairball_count);
             alert(`${item.name}を購入しました！`);
         } catch (err) {
             console.error(err);
