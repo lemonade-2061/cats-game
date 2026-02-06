@@ -1,6 +1,6 @@
 import { Cat, GameRecord } from "@/types/models";
 
-export const createCat = (name: string, coatColor: string): Cat => {
+export const createCat = (name: string): Cat => {
     return {
         id: crypto.randomUUID(),
         name,
