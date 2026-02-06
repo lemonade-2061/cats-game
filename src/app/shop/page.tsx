@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { buyItem } from "@/utils/priceLogic";
 import type { GameRecord, Item } from "@/types/models";
+import { useSound } from "../../components/useSound";
 
 const SHOP_ITEMS = [
     { id: "1", name: "コイン", image: "coin.png", price: 10, icon: "hairball.png" },
@@ -16,13 +17,21 @@ const SHOP_ITEMS = [
     { id: "7", name: "ゲージ", image: "gage.png", price: 500, icon: "coin.png" },
     { id: "8", name: "キャットタワー", image: "cattawa-.png", price: 1000, icon: "coin.png" },
 ];
-//AI
+
 export default function ShopPage() {
     const router = useRouter();
     const [coin, setCoin] = useState(0);
     const [hairball, setHairball] = useState(0);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState<string>("");
+    const [koukakuon, setKoukakuon] = useState(5);
+
+    useEffect(() => {
+        const savedKouka = localStorage.getItem("vol_kouka");
+        if (savedKouka !== null) setKoukakuon(Number(savedKouka));
+    }, []);
+
+    const { play: playClickSound } = useSound("/sound/click.mp3", koukakuon);
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -33,7 +42,7 @@ export default function ShopPage() {
                     .from("profile")
                     .select("money, hairball_count")
                     .eq("id", user.id)
-                    .single();
+                    .maybeSingle();
                 if (data) {
                     setCoin(data.money ?? 0);
                     setHairball(data.hairball_count ?? 0);
@@ -44,10 +53,8 @@ export default function ShopPage() {
     }, []);
 
     const handleBuy = async (item: Item & { icon: string }) => {
-        if (!userId) {
-            alert("ユーザーが見つかりません");
-            return;
-        }
+        playClickSound();
+        if (!userId) return;
 
         setLoading(true);
         try {
@@ -57,10 +64,7 @@ export default function ShopPage() {
                 .eq("id", userId)
                 .single();
 
-            if (!currentRecord) {
-                alert("プロフィール取得失敗");
-                return;
-            }
+            if (!currentRecord) return;
 
             const gameRecord: GameRecord = {
                 id: userId,
@@ -75,22 +79,20 @@ export default function ShopPage() {
             };
 
             const result = await buyItem(gameRecord, item, supabase, userId);
-            if (!result.success) {
+            if (result.success) {
+                setCoin(result.data.money);
+                setHairball(result.data.hairball_count);
+                alert(`${item.name}を購入しました！`);
+            } else {
                 alert(result.message);
-                return;
             }
-
-            setCoin(result.data.money);
-            setHairball(result.data.hairball_count);
-            alert(`${item.name}を購入しました！`);
         } catch (err) {
             console.error(err);
-            alert("購入エラー");
         } finally {
             setLoading(false);
         }
     };
-//ここまで
+
     return (
         <main className="shop-background" style={{position: "relative"}}>
             <div style={{position: "absolute",color: "#000000", top: "20px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "20px", fontSize: "24px", fontWeight: "bold"}}>
@@ -107,8 +109,8 @@ export default function ShopPage() {
                             <img src={`/icon/${item.icon}`} alt={item.icon} style={{width: "20px", height: "20px"}}/>
                             <button 
                                 onClick={() => handleBuy(item)}
-                                disabled={loading || (item.icon === "kedama.png" ? hairball < item.price : coin < item.price)}
-                                style={{padding: "5px 10px", fontSize: "12px", border: "2px solid #FF8C42", backgroundColor: (item.icon === "kedama.png" ? hairball < item.price : coin < item.price) ? "#ccc" : "#fff", cursor: (item.icon === "kedama.png" ? hairball < item.price : coin < item.price) || loading ? "not-allowed" : "pointer"}}
+                                disabled={loading || (item.icon === "hairball.png" ? hairball < item.price : coin < item.price)}
+                                style={{padding: "5px 10px", fontSize: "12px", border: "2px solid #FF8C42", backgroundColor: (item.icon === "hairball.png" ? hairball < item.price : coin < item.price) ? "#ccc" : "#fff", cursor: (item.icon === "hairball.png" ? hairball < item.price : coin < item.price) || loading ? "not-allowed" : "pointer"}}
                             >
                                 {item.price}
                             </button>
@@ -116,8 +118,7 @@ export default function ShopPage() {
                     </div>
                 ))}
             </div>
-
-            <button onClick={() => router.push("/care")} style={{padding: "10px 20px",backgroundColor: "#FF8C42", color: "#fff", fontSize: "14px", borderRadius: "5px", position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)"}}>戻る</button>
+            <button onClick={() => {playClickSound(); router.push("/care")}} style={{padding: "10px 20px",backgroundColor: "#FF8C42", color: "#fff", fontSize: "14px", borderRadius: "5px", position: "fixed", bottom: "20px", left: "50%", transform: "translateX(-50%)"}}>戻る</button>
         </main>
     );
 }

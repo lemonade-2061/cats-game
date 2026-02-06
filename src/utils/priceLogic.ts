@@ -77,7 +77,7 @@ export const buyItem = async (
                 hairball_count: isCoinItem ? gameRecord.hairball_count : gameRecord.hairball_count - item.price,
             }
         };
-    } catch (err) {
+    } catch (error) {
         return { success: false, message: "購入処理でエラー" };
     }
 };
