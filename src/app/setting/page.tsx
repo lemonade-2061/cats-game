@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSound } from "../../components/useSound";
 import { supabase } from "@/lib/supabase"
@@ -9,15 +9,12 @@ import "@/app/globals.css"
 export default function SettingPage() {
     const router = useRouter();
     
+    const [newCatName, setNewCatName] = useState("");
+    const [newCatKind, setNewCatKind] = useState("猫１");
+
     const [nakigoe, setNakigoe] = useState(5);
     const [koukakuon, setKoukakuon] = useState(5);
     const [bgm, setBgm] = useState(5);
-
-    const [newCatName, setNewCatName] = useState("");
-    const [newCatKind, setNewCatKind] = useState("");
-    const [nakigoe, setNakigoe] = useState<number>(() => getInitial("vol_naki", 5));
-    const [koukakuon, setKoukakuon] = useState<number>(() => getInitial("vol_kouka", 5));
-    const [bgm, setBgm] = useState<number>(() => getInitial("vol_bgm", 5));
 
     const { play: playClick } = useSound("/sound/click.mp3", koukakuon);
     const { play: playCat1 } = useSound("/sound/cat1.mp3", nakigoe);
@@ -44,18 +41,20 @@ export default function SettingPage() {
     const handleReturn = async () => {
         playClick();
         const { data: { user } } = await supabase.auth.getUser();
-        console.log("user:", user);
+        
         if (user) {
             const { error } = await supabase
                 .from("profile")
-                .update({ cat_name: newCatName, catkind: newCatKind })
-                .eq("id", user.id);
+                .upsert({ 
+                    id: user.id,
+                    cat_name: newCatName, 
+                    catkind: newCatKind 
+                }, { onConflict: 'id' });
 
             if (error) {
                 console.error("settingの保存に失敗しました：" + error.message);
-            } else {
-                router.push("/care");
             }
+            router.push("/care");
         } else {
             router.push("/care");
         }
@@ -74,9 +73,9 @@ export default function SettingPage() {
                     value={newCatKind}
                     onChange={(e) => setNewCatKind(e.target.value)}
                 >
-                    <option>猫１</option>
-                    <option>猫２</option>
-                    <option>猫３</option>    
+                    <option value="猫１">猫１</option>
+                    <option value="猫２">猫２</option>
+                    <option value="猫３">猫３</option>    
                 </select>
                 
                 <div style={{width: "100%"}}>
