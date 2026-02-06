@@ -15,9 +15,6 @@ export default function SettingPage() {
     const [nakigoe, setNakigoe] = useState(5);
     const [koukakuon, setKoukakuon] = useState(5);
     const [bgm, setBgm] = useState(5);
-
-    const [newCatName, setNewCatName] = useState("");
-    const [newCatKind, setNewCatKind] = useState("");
     // const [nakigoe, setNakigoe] = useState<number>(() => getInitial("vol_naki", 5));
     // const [koukakuon, setKoukakuon] = useState<number>(() => getInitial("vol_kouka", 5));
     // const [bgm, setBgm] = useState<number>(() => getInitial("vol_bgm", 5));
