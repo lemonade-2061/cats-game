@@ -3,23 +3,21 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSound } from "../../components/useSound";
+import { supabase } from "@/lib/supabase"
 
 export default function SettingPage() {
     const router = useRouter();
-    const [nakigoe, setNakigoe] = useState(5);
-    const [koukakuon, setKoukakuon] = useState(5);
-    const [bgm, setBgm] = useState(5);
-    //AI
-    useEffect(() => {
-        const savedNaki = localStorage.getItem("vol_naki");
-        const savedKouka = localStorage.getItem("vol_kouka");
-        const savedBgm = localStorage.getItem("vol_bgm");
+    const getInitial = (key: string, fallback: number) => {
+        if (typeof window === "undefined") return fallback;
+        const v = localStorage.getItem(key);
+        return v !== null ? Number(v) : fallback;
+    };
 
-        if (savedNaki !== null) setNakigoe(Number(savedNaki));
-        if (savedKouka !== null) setKoukakuon(Number(savedKouka));
-        if (savedBgm !== null) setBgm(Number(savedBgm));
-    }, []);
-    //ここまで
+    const [newCatName, setNewCatName] = useState("");
+    const [newCatKind, setNewCatKind] = useState("");
+    const [nakigoe, setNakigoe] = useState<number>(() => getInitial("vol_naki", 5));
+    const [koukakuon, setKoukakuon] = useState<number>(() => getInitial("vol_kouka", 5));
+    const [bgm, setBgm] = useState<number>(() => getInitial("vol_bgm", 5));
     const { play: playClick } = useSound("/sound/click.mp3", koukakuon);
     const { play: playCat1 } = useSound("/sound/cat1.mp3", nakigoe);
     const { play: playCat2 } = useSound("/sound/cat2.mp3", nakigoe);
@@ -30,15 +28,40 @@ export default function SettingPage() {
         const randomIndex = Math.floor(Math.random() * sounds.length);
         sounds[randomIndex](v);
     }
+
+    const handleReturn = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+            const { data, error } = await supabase
+                .from("profile")
+                .update({ cat_name: newCatName, catkind: newCatKind })
+                .eq("id", user.id);
+
+            if (error) {
+                console.error("settingの保存に失敗しました：" + error.message);
+            } else {
+                router.push("/care");
+            }
+        }
+    }
     //ここまで
     return (
         <main className="setting-background">
             <form className="setting-form">
-                <input style={{marginRight: "100px",fontSize: "30px",textAlign: "center",margin: "auto"}} placeholder="猫の名前"/>
-                <select>
+                <input　
+                    style={{marginRight: "100px",fontSize: "30px",textAlign: "center",margin: "auto"}} 
+                    placeholder="猫の名前"
+                    value={newCatName}
+                    onChange={(e) => setNewCatName(e.target.value)}
+                />
+                <select
+                    value={newCatKind}
+                    onChange={(e) => setNewCatKind(e.target.value)}
+                >
                     <option>猫１</option>
                     <option>猫２</option>
-                    <option>猫３</option>    
+                    <option>猫３</option>
                 </select>
                 
                 <div style={{width: "100%"}}>
@@ -88,7 +111,7 @@ export default function SettingPage() {
                         style={{width: "100%", cursor: "pointer"}}
                     />
                 </div>
-                <button type="button" className="setting-back-button" onClick={() => router.push("/care")}>戻る</button>
+                <button type="button" className="setting-back-button" onClick={handleReturn}>戻る</button>
             </form>
         </main>
     );
