@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSound } from "../../components/useSound";
 import { supabase } from "@/lib/supabase"
@@ -15,9 +15,9 @@ export default function SettingPage() {
 
     const [newCatName, setNewCatName] = useState("");
     const [newCatKind, setNewCatKind] = useState("");
-    const [nakigoe, setNakigoe] = useState<number>(() => getInitial("vol_naki", 5));
-    const [koukakuon, setKoukakuon] = useState<number>(() => getInitial("vol_kouka", 5));
-    const [bgm, setBgm] = useState<number>(() => getInitial("vol_bgm", 5));
+    // const [nakigoe, setNakigoe] = useState<number>(() => getInitial("vol_naki", 5));
+    // const [koukakuon, setKoukakuon] = useState<number>(() => getInitial("vol_kouka", 5));
+    // const [bgm, setBgm] = useState<number>(() => getInitial("vol_bgm", 5));
 
     const { play: playClick } = useSound("/sound/click.mp3", koukakuon);
     const { play: playCat1 } = useSound("/sound/cat1.mp3", nakigoe);
@@ -76,12 +76,12 @@ export default function SettingPage() {
                 >
                     <option>猫１</option>
                     <option>猫２</option>
-                    <option>猫３</option>    
+                    <option>猫３</option>
                 </select>
                 
                 <div style={{width: "100%"}}>
                     <label>鳴き声: {nakigoe}</label>
-                    <input 
+                    <input
                         type="range" min="0" max="10" value={nakigoe}
                         onChange={(e) => {
                             const newVal = Number(e.target.value);
