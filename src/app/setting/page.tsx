@@ -44,7 +44,7 @@ export default function SettingPage() {
     const handleReturn = async () => {
         playClick();
         const { data: { user } } = await supabase.auth.getUser();
-
+        console.log("user:", user);
         if (user) {
             const { error } = await supabase
                 .from("profile")
