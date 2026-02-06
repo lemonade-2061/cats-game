@@ -12,17 +12,23 @@ export default function CarePage() {
     const [catName, setCatName] = useState<string>("猫の名前");
     const [catKind, setCatKind] = useState<string>("猫１");
     const [hairballExpecter, sethairballExpecter] = useState<number>(0);
-    const [nakigoe, setNakigoe] = useState<number>(5);
     const router = useRouter();
 
-    useEffect(() => {
-        const vNaki = localStorage.getItem("vol_naki");
-        if (vNaki !== null) setNakigoe(Number(vNaki));
-    }, []);
+    const [nakigoe, setNakigoe] = useState(5);
+    const [kouka, setKouka] = useState(5);
 
+    const { play: playClick } = useSound("/sound/click.mp3", kouka);
     const { play: playCat1 } = useSound("/sound/cat1.mp3", nakigoe);
     const { play: playCat2 } = useSound("/sound/cat2.mp3", nakigoe);
     const { play: playCat3 } = useSound("/sound/cat3.mp3", nakigoe);
+
+    useEffect(() => {
+        const savedNaki = localStorage.getItem("vol_naki");
+        const savedKouka = localStorage.getItem("vol_kouka");
+        if (savedNaki) setNakigoe(Number(savedNaki));
+        if (savedKouka) setKouka(Number(savedKouka));
+        
+    }, []);
 
     const playRandomCatSound = (v?: number) => {
         const sounds = [playCat1, playCat2, playCat3];
@@ -79,6 +85,8 @@ export default function CarePage() {
     }, [])
 
     const handleBrush = async () => {
+        playClick();
+        playRandomCatSound(nakigoe);
         try {
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) {
@@ -125,16 +133,26 @@ export default function CarePage() {
             console.error(err);
         }
     };
-    const handleToy = () => sethairballExpecter(hairballExpecter + 2);
-    const handleFood = () => sethairballExpecter(hairballExpecter + 3);
+    const handleToy = () => {
+        sethairballExpecter(hairballExpecter + 2);
+        playClick();
+    }
+    const handleFood = () => {
+        sethairballExpecter(hairballExpecter + 3);
+        playClick();
+    }
     const handleCatClick = () => {
         // 猫をクリックした時に鳴き声を再生
         playRandomCatSound(nakigoe);
     };
-    const handleShop = () => router.push("/shop");
-    const handleSetting = () => router.push("/setting");
-
-    
+    const handleShop = () => {
+        router.push("/shop");
+        playClick();
+    }
+    const handleSetting = () => {
+        router.push("/setting");
+        playClick();
+    }
 
     const getCatImage = () => {
         switch (catKind) {
